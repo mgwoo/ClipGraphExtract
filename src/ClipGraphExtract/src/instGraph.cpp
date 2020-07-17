@@ -4,6 +4,7 @@
 #include <cmath>
 #include <fstream>
 #include <queue>
+#include <string>
 
 using std::set;
 using std::vector;
@@ -216,8 +217,17 @@ void Graph::init(std::set<odb::dbInst*> & insts,
     }
   }
 
-  cout << "TotalVertex: " << vertices_.size() << endl;
-  cout << "TotalEdge: " << edges_.size() << endl;
+  std::string netModelName = "";
+  if( gModel == GraphModel::Clique ) {
+    netModelName = "Clique";
+  } 
+  else if( gModel == GraphModel::Star ) {
+    netModelName = "star";
+  }
+
+  cout << "TotalVertices: " << vertices_.size() << endl;
+  cout << "NetModel: " << netModelName << endl; 
+  cout << "TotalEdges: " << edges_.size() << endl;
   // vertex' inEdge/outEdge update
   updateVertsFromEdges();
 }

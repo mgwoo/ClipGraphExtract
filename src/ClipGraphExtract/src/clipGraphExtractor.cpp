@@ -99,7 +99,7 @@ ClipGraphExtractor::extract(int lx, int ly, int ux, int uy) {
   //GraphExtSrchPred graphExtSrchPred(sta_);
 
   cout << "NumFoundInsts: " << foundInsts.size() << endl;
-  cout << "NumStaVertex: " << graph->vertexCount() << endl;
+//  cout << "NumStaVertex: " << graph->vertexCount() << endl;
 
   //for(int i=1; i<=graph->vertexCount(); i++) {
   //  sta::Vertex* vert = graph->vertex(i);
@@ -122,13 +122,12 @@ ClipGraphExtractor::extract(int lx, int ly, int ux, int uy) {
   //  cout << inst->getConstName() << endl;
   //}
 
-  cout << "NumInstsAfterNeighbor: " << instSet.size() << endl;
   Graph instGraph;
   instGraph.setDb(db_);
   instGraph.init(instSet, graphModel_, edgeWeightModel_);
   //instGraph.printEdgeList();
   instGraph.saveFile(fileName_);
-  cout << "Done!" << endl << endl;
+  cout << "Done!" << endl;
   //rTree_(*RTree)->
 }
 

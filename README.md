@@ -8,7 +8,13 @@
 - asd
 
 # ClipGraphExtract Flow
-- asd
+| <img src="/doc/clique-star.png" width=600px> |
+|:--:|
+| Clique and star net decomposition example |
+- Takes LEF/DEF using OpenDB
+- Push to the all instances' location to Boost/RTree class. 
+- Send region query to get related instances using the given clips' coordinates.
+- Generate clip graph's clique/star net models as text file (e.g. edges list) for graph neural network models.
 
 # License
 - BSD-3-Clause license. 

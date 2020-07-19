@@ -70,8 +70,35 @@
         odb::dbInst* inst = val.second;
         instSet.insert( inst ); 
       }
+      
+- Extract distinctive dbITerms from dbInst objects [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/a40d582604b432594aee5a40b9b7a76c56ba3bc0/src/ClipGraphExtract/src/instGraph.cpp#L103-L109)
 
+      for(odb::dbITerm* iTerm : inst->getITerms()) {
+        if( iTerm->getSigType() == odb::dbSigType::POWER ||
+            iTerm->getSigType() == odb::dbSigType::GROUND ) {
+          continue;
+        }
+        iTermSet.insert(iTerm); 
+      }
 
+- Extract distinctive dbNet from dbITerm objects [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/a40d582604b432594aee5a40b9b7a76c56ba3bc0/src/ClipGraphExtract/src/instGraph.cpp#L112-L125)
+
+      // extract Net
+      set<odb::dbNet*> netSet;
+      for(odb::dbITerm* iTerm : iTermSet) {
+        odb::dbNet* net = iTerm->getNet();
+        if (!net) { 
+          continue;
+        }
+        if( net->getSigType() == odb::dbSigType::POWER ||
+            net->getSigType() == odb::dbSigType::GROUND ||
+            net->getSigType() == odb::dbSigType::CLOCK ) {
+          continue;
+        }
+        netSet.insert(net);
+      }
+      
+      
 ## Adding a Tool
 
 

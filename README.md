@@ -187,10 +187,10 @@
 - Build
   - Please follow the build manual in [OpenROAD](https://github.com/The-OpenROAD-Project/OpenROAD)
 
-      $ mkdir build
-      $ cd build
-      $ cmake ..
-      $ make
+        $ mkdir build
+        $ cd build
+        $ cmake ..
+        $ make
       
 - Test on ClipGraphExtract
 

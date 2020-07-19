@@ -185,13 +185,14 @@
 
 # How to build/test?
 - Build
+  - Please follow the build manual in [OpenROAD](https://github.com/The-OpenROAD-Project/OpenROAD)
 
       $ mkdir build
       $ cd build
       $ cmake ..
       $ make
       
-- Test
+- Test on ClipGraphExtract
 
       $ cd src/ClipGraphExtract/test/
       $ ../../../build/src/openroad test.tcl

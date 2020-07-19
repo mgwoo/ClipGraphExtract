@@ -1,5 +1,5 @@
 # ClipGraphExtract
-- An example repo for adding the tool to top-level app and using a OpenDB-C++ API for DAC 2020 tutorial 9.
+- An example repo for adding the tool to the top-level app and using an OpenDB-C++ API for DAC 2020 tutorial 9.
 - The base sources are copied from [OpenROAD](https://github.com/The-OpenROAD-Project/OpenROAD) repo, commit: [7156dc](https://github.com/The-OpenROAD-Project/OpenROAD/commit/7156dc41b0be75e9090b456103a2a1510913a4d2). Unessential repos are removed to be compiled well in other environments.
 - Please read the [doc/OpenRoadArch.md](https://github.com/The-OpenROAD-Project/OpenROAD/blob/master/doc/OpenRoadArch.md) to understand the requirement. The ClipGraphExtract follows the OpenRoadArch.md manual.
 
@@ -17,7 +17,7 @@
     - public headers location of OpenROAD.
 
 - src/ 
-    - OpenROAD source code files. The tools source code should be located in here. 
+    - OpenROAD source code files. The tools source code should be located here. 
   
 - src/ClipGraphExtractor/src/  
     - source code location of ClipGraphExtractor.
@@ -118,7 +118,7 @@
         ClipGraphExtractor
         ...
         )
-- Write a initializing public header inside tool [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/master/src/ClipGraphExtract/include/clip_graph_ext/MakeClipGraphExtractor.h)
+- Write an initializing public header inside tool [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/master/src/ClipGraphExtract/include/clip_graph_ext/MakeClipGraphExtractor.h)
 
       namespace ord {
       class OpenRoad;
@@ -186,4 +186,4 @@
         
 # License
 - BSD-3-Clause license. 
-- Code found under the sub directory (e.g., src/OpenSTA) have individual copyright and license declarations at each folder.
+- Code found under the subdirectory (e.g., src/OpenSTA) have individual copyright and license declarations at each folder.

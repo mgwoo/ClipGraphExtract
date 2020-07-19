@@ -127,6 +127,36 @@
       void initClipGraphExtractor(OpenRoad *openroad);
       void deleteClipGraphExtractor(ClipGraphExtract::ClipGraphExtractor *graphext);
       }
+
+- Change OpenRoad.cc and OpenRoad.hh accordinly
+  - [include/openroad/OpenRoad.hh](https://github.com/mgwoo/ClipGraphExtract/blob/5d92d9d4d657f8dac25762064c9991b597f9d944/include/openroad/OpenRoad.hh#L61-L63)
+  
+        // incomplete header
+        namespace ClipGraphExtract {
+        class ClipGraphExtractor;
+        }
+        
+        ...
+        // getter functions
+        ClipGraphExtract::ClipGraphExtractor *getClipGraphExtractor() { return clipGraphExt_; }
+        ...
+        // private variable
+        ClipGraphExtract::ClipGraphExtractor *clipGraphExt_;
+
+  - [src/OpenRoad.cc](https://github.com/mgwoo/ClipGraphExtract/blob/5d92d9d4d657f8dac25762064c9991b597f9d944/src/OpenRoad.cc#L100)
+
+        // make
+        clipGraphExt_ = makeClipGraphExtractor();
+        ...
+        // delete
+        deleteClipGraphExtractor(clipGraphExt_);
+        ...
+        // init
+        initClipGraphExtractor(this);
+        ...
+        
+- Registering Hidden Tcl Command using SWIG [(src/ClipGraphExtract/src/clipGraphExtract.i)](src/ClipGraphExtract/src/clipGraphExtractor.i)
+- Registering Visible Tcl Command using OpenSTA Tcl Template [(src/ClipGraphExtract/src/clipGraphExtract.tcl)](src/ClipGraphExtract/src/clipGraphExtractor.tcl)
         
 # License
 - BSD-3-Clause license. 

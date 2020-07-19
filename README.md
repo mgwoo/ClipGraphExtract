@@ -156,7 +156,33 @@
         ...
         
 - Registering Hidden Tcl Command using SWIG [(src/ClipGraphExtract/src/clipGraphExtract.i)](src/ClipGraphExtract/src/clipGraphExtractor.i)
+
+      // Note that hidden SWIG tcl commands must have *_cmd as a function name.
+      void
+      graph_extract_cmd(int lx, int ly, int ux, int uy) 
+      {
+        ClipGraphExtractor* graphExt = getClipGraphExtractor();
+        graphExt->extract(lx, ly, ux, uy);
+      }
+
+
 - Registering Visible Tcl Command using OpenSTA Tcl Template [(src/ClipGraphExtract/src/clipGraphExtract.tcl)](src/ClipGraphExtract/src/clipGraphExtractor.tcl)
+
+      // register graph_extract commands in OpenROAD binary.
+      sta::define_cmd_args "graph_extract" {
+        [-graph_model star/clique]\
+        [-edge_weight_model weight]\
+        [-out_file fileName]
+      }
+      
+      // function details
+      proc graph_extract { args } {
+      ...
+      // *_cmd SWIG functions can be used in here.
+      ...
+      }
+
+
         
 # License
 - BSD-3-Clause license. 

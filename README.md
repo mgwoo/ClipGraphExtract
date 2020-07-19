@@ -183,7 +183,19 @@
       }
 
 
-        
+# How to build/test?
+- Build
+
+      $ mkdir build
+      $ cd build
+      $ cmake ..
+      $ make
+      
+- Test
+
+      $ cd src/ClipGraphExtract/test/
+      $ ../../../build/src/openroad test.tcl
+      
 # License
 - BSD-3-Clause license. 
 - Code found under the subdirectory (e.g., src/OpenSTA) have individual copyright and license declarations at each folder.

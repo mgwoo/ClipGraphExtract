@@ -31,7 +31,7 @@
 ## OpenDB C++ API
 - All the OpenDB reference is in the OpenDB's public header [(OpenDB/include/opendb/db.h)](https://github.com/The-OpenROAD-Project/OpenDB/blob/ebbf56ee8ddb08f9a8da5febafe37691731f2932/include/opendb/db.h). Please check this header file first to understand how the structures are designed.
 
-- Set the OpenDB pointer from Top-level app [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/ead17cee5b4bde069b64913a9d1d3749cf3d4f92/src/ClipGraphExtract/src/MakeClipGraphExtractor.cpp#L30-L31)
+- Set the OpenDB pointer from Top-level app [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/b451e83d26f6fc867d41a4192f71e9d22be31684/src/ClipGraphExtract/src/MakeClipGraphExtractor.cpp#L30-L31)
 
       void 
       initClipGraphExtractor(OpenRoad *openroad) 
@@ -43,7 +43,7 @@
         openroad->getClipGraphExtractor()->setSta(openroad->getSta());
       }
     
-- Push instances' location to RTree using dbInst* [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/ead17cee5b4bde069b64913a9d1d3749cf3d4f92/src/ClipGraphExtract/src/clipGraphExtractor.cpp#L74-L80)
+- Push instances' location to RTree using dbInst* [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/b451e83d26f6fc867d41a4192f71e9d22be31684/src/ClipGraphExtract/src/clipGraphExtractor.cpp#L74-L80)
 
       dbBlock* block = db_->getChip()->getBlock();
       for( dbInst* inst : block->getInsts() ) {
@@ -53,14 +53,21 @@
         rTree->insert( make_pair(b, inst) );
       }
 
-- Store distinctive instances into hash_set (e.g. std::set<dbInst*>) [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/ead17cee5b4bde069b64913a9d1d3749cf3d4f92/src/ClipGraphExtract/src/clipGraphExtractor.cpp#L110-L119)
+- Send region query using given bbox coordinates. [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/b451e83d26f6fc867d41a4192f71e9d22be31684/src/ClipGraphExtract/src/clipGraphExtractor.cpp#L91-L97)
+
+      box queryBox( point(lx, ly), point(ux, uy) );
+
+      vector<value> foundInsts; 
+      rTree->query(bgi::intersects(queryBox), 
+          std::back_inserter(foundInsts));
+
+      cout << "NumFoundInsts: " << foundInsts.size() << endl;
+
+- Store distinctive instances into hash_set (e.g. std::set<dbInst*>) [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/b451e83d26f6fc867d41a4192f71e9d22be31684/src/ClipGraphExtract/src/clipGraphExtractor.cpp#L99-L103)
 
       set<odb::dbInst*> instSet;
       for(value& val : foundInsts) {
         odb::dbInst* inst = val.second;
-    
-        int lx = 0, ly = 0;
-        inst->getLocation(lx, ly);
         instSet.insert( inst ); 
       }
 

@@ -87,8 +87,6 @@ ClipGraphExtractor::extract(int lx, int ly, int ux, int uy) {
   sta_->updateTiming(false);
   sta::dbNetwork* network = sta_->getDbNetwork();
   sta::Graph* graph = sta_->ensureGraph();
-  //sta_->ensureLevelized();
-  //cout << "MaxLevel: " << sta_->levelize()->maxLevel() << endl;
   
   box queryBox( point(lx, ly), point(ux, uy) );
 
@@ -96,39 +94,19 @@ ClipGraphExtractor::extract(int lx, int ly, int ux, int uy) {
   rTree->query(bgi::intersects(queryBox), 
       std::back_inserter(foundInsts));
 
-  //GraphExtSrchPred graphExtSrchPred(sta_);
-
   cout << "NumFoundInsts: " << foundInsts.size() << endl;
-//  cout << "NumStaVertex: " << graph->vertexCount() << endl;
 
-  //for(int i=1; i<=graph->vertexCount(); i++) {
-  //  sta::Vertex* vert = graph->vertex(i);
-  //  cout << network->pathName(vert->pin()) << " " << vert->level() << endl;
-  //}
-  
-  int idx = 0; 
   set<odb::dbInst*> instSet;
   for(value& val : foundInsts) {
     odb::dbInst* inst = val.second;
-    
-    int lx = 0, ly = 0;
-    inst->getLocation(lx, ly);
     instSet.insert( inst ); 
-    // cout << "inst: " << inst->getConstName() << endl;
-    // sta::Instance* staInst = network->dbToSta(inst);
   }
   
-  //for(auto& inst: instSet) {
-  //  cout << inst->getConstName() << endl;
-  //}
-
   Graph instGraph;
   instGraph.setDb(db_);
   instGraph.init(instSet, graphModel_, edgeWeightModel_);
-  //instGraph.printEdgeList();
   instGraph.saveFile(fileName_);
   cout << "Done!" << endl;
-  //rTree_(*RTree)->
 }
 
 void

@@ -222,7 +222,7 @@ void Graph::init(std::set<odb::dbInst*> & insts,
     netModelName = "Clique";
   } 
   else if( gModel == GraphModel::Star ) {
-    netModelName = "star";
+    netModelName = "Star";
   }
 
   cout << "TotalVertices: " << vertices_.size() << endl;

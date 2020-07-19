@@ -1,6 +1,6 @@
 # ClipGraphExtract
 - An example repo for adding the tool to top-level app and using a OpenDB-C++ API for DAC 2020 tutorial 9.
-- The base sources are copied from [OpenROAD](https://github.com/The-OpenROAD-Project/OpenROAD) repo, commit: [7156dc](https://github.com/The-OpenROAD-Project/OpenROAD/commit/7156dc41b0be75e9090b456103a2a1510913a4d2). Unessential repos are removed to compile well in other environments.
+- The base sources are copied from [OpenROAD](https://github.com/The-OpenROAD-Project/OpenROAD) repo, commit: [7156dc](https://github.com/The-OpenROAD-Project/OpenROAD/commit/7156dc41b0be75e9090b456103a2a1510913a4d2). Unessential repos are removed to be compiled well in other environments.
 - Please read the [doc/OpenRoadArch.md](https://github.com/The-OpenROAD-Project/OpenROAD/blob/master/doc/OpenRoadArch.md) to understand the requirement. The ClipGraphExtract follows the OpenRoadArch.md manual.
 
 # ClipGraphExtract Flow
@@ -99,10 +99,35 @@
       
       
 ## Adding a Tool
+- Write tool's CMakeLists.txt [(src/ClipGraphExtract/CMakeLists.txt)](https://github.com/mgwoo/ClipGraphExtract/blob/master/src/ClipGraphExtract/CMakeLists.txt)
+  
+- Modify OpenROAD's CMakeLists.txt accordingly [(src/CMakeLists.txt)](https://github.com/mgwoo/ClipGraphExtract/blob/master/src/CMakeLists.txt)
 
+  - [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/0652e635b152500e1a75dc849f318455bd33677f/src/CMakeLists.txt#L21)
+  
+        set(CLIP_GRAPHEXT_HOME ${PROJECT_SOURCE_DIR}/src/ClipGraphExtract)
+        
+  - [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/0652e635b152500e1a75dc849f318455bd33677f/src/CMakeLists.txt#L205)
+  
+        add_subdirectory(ClipGraphExtract)
+      
+  - [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/0652e635b152500e1a75dc849f318455bd33677f/src/CMakeLists.txt#L242) 
+  
+        target_link_libraries(openroad
+        ...
+        ClipGraphExtractor
+        ...
+        )
+- Write a initializing public header inside tool [(Link)](https://github.com/mgwoo/ClipGraphExtract/blob/master/src/ClipGraphExtract/include/clip_graph_ext/MakeClipGraphExtractor.h)
 
+      namespace ord {
+      class OpenRoad;
 
-
+      ClipGraphExtract::ClipGraphExtractor* makeClipGraphExtractor();
+      void initClipGraphExtractor(OpenRoad *openroad);
+      void deleteClipGraphExtractor(ClipGraphExtract::ClipGraphExtractor *graphext);
+      }
+        
 # License
 - BSD-3-Clause license. 
 - Code found under the sub directory (e.g., src/OpenSTA) have individual copyright and license declarations at each folder.

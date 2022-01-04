@@ -1,8 +1,8 @@
 # ClipGraphExtract (Machine Learning Tutorial)
 - An example repo for extracting a clip from given coordinates..
 - The base sources are copied from [OpenROAD](https://github.com/The-OpenROAD-Project/OpenROAD) repo, commit: [50f0e3](https://github.com/The-OpenROAD-Project/OpenROAD/commit/50f0e32411c12d71438481b8b353a03b45537baa). 
-- Please read the [doc/OpenRoadArch.md](https://github.com/The-OpenROAD-Project/OpenROAD/blob/master/doc/OpenRoadArch.md) to understand the requirement. The ClipGraphExtract follows the OpenRoadArch.md manual.
-- Note that this version registers Python modules (GraphExtractor_py) using SWIG wrapper.
+- The developer guide of the OpenROAD project is available in [DeveloperGuide.md](https://github.com/mgwoo/ClipGraphExtract/blob/MLtutorial/docs/contrib/DeveloperGuide.md).
+- Note that this version registers Python modules (GraphExtractor_py) using SWIG.
 
 ## ClipGraphExtract Flow
 | <img src="/docs/misc/clique-star-v2.png" width=600px> |

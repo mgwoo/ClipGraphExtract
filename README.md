@@ -18,15 +18,24 @@
 ### OpenDB C++ API
 - All the OpenDB reference is in the OpenDB's public header [(odb/include/opendb/db.h)](https://github.com/The-OpenROAD-Project/OpenDB/blob/ebbf56ee8ddb08f9a8da5febafe37691731f2932/include/opendb/db.h). Please check this header file first to understand how the structures are designed.
 
-## How to build binary?
+## How to build/run binary?
 - Please follow the build manual in [OpenROAD](https://github.com/The-OpenROAD-Project/OpenROAD)
 
-      $ mkdir build
-      $ cd build
+      $ git clone -b MLtutorial --recursive --single-branch https://github.com/mgwoo/ClipGraphExtract/  
+      $ cd ClipGraphExtract
+      $ mkdir build; cd build
       $ cmake ..
       $ make
       
-## Example Python API usages
+- Run OpenROAD with Tcl interpreter (default)
+
+      $ build/src/openroad
+      
+- Run OpenROAD with Python interpreter 
+      
+      $ build/src/openroad -python
+      
+## Example Python API usages (with GraphExtractor_py module)
 - [generate_clips.py](https://gist.github.com/mgwoo/5612863f1cde8346ffbed488d1a706bf)
 - Command:
                 
@@ -44,6 +53,9 @@
   
 - src/GraphExtract/include/graphext/  
     - public headers location of ClipGraphExtractor.
+
+- src/GraphExtract/src/graphExtractor_py.i
+    - SWIG implementation for registering GraphExtractor_py Python module.
   
       
 ## License

@@ -5,7 +5,7 @@
 - Note that this version registers Python modules (GraphExtractor_py) using SWIG wrapper.
 
 ## ClipGraphExtract Flow
-| <img src="/doc/clique-star-v2.png" width=600px> |
+| <img src="/docs/misc/clique-star-v2.png" width=600px> |
 |:--:|
 | Clique and star net decomposition example |
 - In OpenROAD app, read_lef and read_def command will populate the OpenDB's data structure.

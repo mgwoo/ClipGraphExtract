@@ -1,0 +1,3 @@
+[submodule "src/sta"]
+	path = src/sta
+	url = https://github.com/The-OpenROAD-Project/OpenSTA

@@ -1,0 +1,50 @@
+GUI 0001 gui.i:47                  Command {} is not usable in non-GUI mode
+GUI 0002 gui.i:53                  No database loaded
+GUI 0003 gui.i:64                  No database loaded
+GUI 0004 layoutViewer.cpp:1620     Skipping malformed GCell {} {} ({} {})
+GUI 0005 gui.i:68                  No chip loaded
+GUI 0006 gui.i:72                  No block loaded
+GUI 0007 gui.i:326                 Unknown display control type: {}
+GUI 0008 gui.cpp:561               GUI already active.
+GUI 0009 gui.i:349                 Unknown display control type: {}
+GUI 0010 layoutViewer.cpp:2599     File path does not end with a valid extension, new path is: {}
+GUI 0011 layoutViewer.cpp:2629     Failed to write image: {}
+GUI 0012 layoutViewer.cpp:2634     Image is too big to be generated: {}px x {}px
+GUI 0013 displayControls.cpp:727   Unable to find {} display control at {}.
+GUI 0014 displayControls.cpp:749   Unable to find {} display control at {}.
+GUI 0015 gui.cpp:413               No design loaded.
+GUI 0016 gui.cpp:417               No design loaded.
+GUI 0017 gui.tcl:80                No technology loaded.
+GUI 0018 gui.tcl:93                Area must contain 4 elements.
+GUI 0019 gui.tcl:164               Display option must have 2 elements {control name} {value}.
+GUI 0020 gui.tcl:48                The -text argument must be specified.
+GUI 0021 gui.tcl:53                The -script argument must be specified.
+GUI 0022 mainWindow.cpp:467        Button {} already defined.
+GUI 0023 mainWindow.cpp:733        Failed to open help automatically, navigate to: {}
+GUI 0024 mainWindow.cpp:599        Ruler with name \"{}\" already exists
+GUI 0030 drcWidget.cpp:427         Unable to open TritonRoute DRC report: {}
+GUI 0031 gui.tcl:85                Resolution too high for design, defaulting to [expr $resolution / [$tech getLefUnits]] um per pixel
+GUI 0032 drcWidget.cpp:411         Unable to determine type of {}
+GUI 0033 gui.cpp:149               No descriptor is registered for {}.
+GUI 0034 displayControls.cpp:761   Found {} controls matching {} at {}.
+GUI 0035 gui.cpp:308               Unable to find descriptor for: {}
+GUI 0036 gui.i:443                 Nothing selected
+GUI 0037 gui.i:449                 Unknown property: {}
+GUI 0038 gui.tcl:131               Must specify -type.
+GUI 0039 gui.tcl:147               Cannot use case insensitivity without a name.
+GUI 0040 drcWidget.cpp:484         Unable to find tech layer (line: {}): {}
+GUI 0041 drcWidget.cpp:551         Unable to find bterm (line: {}): {}
+GUI 0042 drcWidget.cpp:544         Unable to find iterm (line: {}): {}
+GUI 0043 drcWidget.cpp:537         Unable to find instance (line: {}): {}
+GUI 0044 drcWidget.cpp:530         Unable to find net (line: {}): {}
+GUI 0045 drcWidget.cpp:457         Unable to parse line as violation type (line: {}): {}
+GUI 0046 drcWidget.cpp:469         Unable to parse line as violation source (line: {}): {}
+GUI 0047 drcWidget.cpp:477         Unable to parse line as violation location (line: {}): {}
+GUI 0048 drcWidget.cpp:500         Unable to parse bounding box (line: {}): {}
+GUI 0049 drcWidget.cpp:502         Unable to parse bounding box (line: {}): {}
+GUI 0050 drcWidget.cpp:505         Unable to parse bounding box (line: {}): {}
+GUI 0051 drcWidget.cpp:572         Unknown source type (line: {}): {}
+GUI 0052 drcWidget.cpp:569         Unable to find obstruction (line: {})
+GUI 0053 gui.cpp:516               Unable to find descriptor for: {}
+GUI 0055 drcWidget.cpp:607         Unable to parse JSON file {}: {}
+GUI 0056 drcWidget.cpp:637         Unable to parse violation shape: {}

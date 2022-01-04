@@ -1,0 +1,67 @@
+PPL 0001 IOPlacer.cpp:731          Number of slots          {}
+PPL 0002 IOPlacer.cpp:732          Number of I/O            {}
+PPL 0003 IOPlacer.cpp:733          Number of I/O w/sink     {}
+PPL 0004 IOPlacer.cpp:735          Number of I/O w/o sink   {}
+PPL 0005 IOPlacer.cpp:736          Slots per section        {}
+PPL 0006 IOPlacer.cpp:737          Slots increase factor    {:.1}
+PPL 0007 IOPlacer.cpp:1139         Random pin placement.
+PPL 0008 IOPlacer.cpp:696          Successfully assigned pins to sections.
+PPL 0009 IOPlacer.cpp:699          Unsuccessfully assigned pins to sections ({} out of {}).
+PPL 0010 IOPlacer.cpp:746          Tentative {} to set up sections.
+PPL 0012 IOPlacer.cpp:1173         I/O nets HPWL: {:.2f} um.
+PPL 0015 IOPlacer.tcl:287          Macro [$inst getName] is not placed.
+PPL 0016 IOPlacer.tcl:148          Both -direction and -pin_names constraints not allowed.
+PPL 0017 IOPlacer.tcl:305          -hor_layers is required.
+PPL 0018 IOPlacer.tcl:311          -ver_layers is required.
+PPL 0019 IOPlacer.tcl:343          Design without pins.
+PPL 0020 IOPlacer.cpp:815          Manufacturing grid is not defined.
+PPL 0021 IOPlacer.tcl:351          Horizontal routing tracks not found for layer $hor_layer_name.
+PPL 0023 IOPlacer.tcl:370          Vertical routing tracks not found for layer $ver_layer_name.
+PPL 0024 IOPlacer.tcl:388          Number of pins $bterms_cnt exceeds max possible $num_slots.
+PPL 0025 IOPlacer.tcl:415          -exclude: $interval is an invalid region.
+PPL 0026 IOPlacer.tcl:418          -exclude: invalid syntax in $region. Use (top|bottom|left|right):interval.
+PPL 0027 IOPlacer.tcl:449          $cmd: $edge is an invalid edge. Use top, bottom, left or right.
+PPL 0028 IOPlacer.tcl:462          $cmd: Invalid pin direction.
+PPL 0029 IOPlacer.tcl:505          $cmd: Invalid edge
+PPL 0030 IOPlacer.tcl:513          Invalid edge for command $cmd, should be one of top, bottom, left, right.
+PPL 0031 IOPlacer.tcl:272          No technology found.
+PPL 0032 IOPlacer.tcl:277          No block found.
+PPL 0033 HungarianMatching.cpp:114 I/O pin {} cannot be placed in the specified region. Not enough space.
+PPL 0036 IOPlacer.cpp:753          Number of sections is {} while the maximum recommended value is {} this may negatively affect performance.
+PPL 0037 IOPlacer.cpp:762          Number of slots per sections is {} while the maximum recommended value is {} this may negatively affect performance.
+PPL 0038 IOPlacer.cpp:1612         Pin {} without net.
+PPL 0039 IOPlacer.cpp:1164         Assigned {} pins out of {} IO pins.
+PPL 0040 IOPlacer.cpp:475          Negative number of slots.
+PPL 0041 IOPlacer.tcl:426          Pin group $group_idx: \[$group\]
+PPL 0042 IOPlacer.cpp:669          Unsuccessfully assigned I/O groups.
+PPL 0043 IOPlacer.tcl:433          Pin $pin_name not found in group $group_idx.
+PPL 0045 IOPlacer.tcl:356          Layer $hor_layer_name preferred direction is not horizontal.
+PPL 0046 IOPlacer.tcl:375          Layer $ver_layer_name preferred direction is not vertical.
+PPL 0048 IOPlacer.tcl:541          Restrict pins \[$names\] to region [ord::dbu_to_microns $begin]u-[ord::dbu_to_microns $end]u at the $edge_name edge.
+PPL 0049 IOPlacer.tcl:154          Restrict $direction pins to region [ord::dbu_to_microns $begin]u-[ord::dbu_to_microns $end]u, in the $edge edge.
+PPL 0050 IOPlacer.tcl:528          No technology has been read.
+PPL 0051 IOPlacer.tcl:533          Layer $layer_name not found.
+PPL 0052 IOPlacer.tcl:53           Routing layer not found for name $layer_name.
+PPL 0053 IOPlacer.tcl:56           -layer is required.
+PPL 0054 IOPlacer.tcl:63           -x_step and -y_step are required.
+PPL 0055 IOPlacer.tcl:84           -region is required.
+PPL 0056 IOPlacer.tcl:90           -size is not a list of 2 values.
+PPL 0057 IOPlacer.tcl:96           -size is required.
+PPL 0059 IOPlacer.tcl:175          Box at top layer must have 4 values (llx lly urx ury).
+PPL 0060 IOPlacer.tcl:550          Restrict pins \[$names\] to region ([ord::dbu_to_microns $llx]u, [ord::dbu_to_microns $lly]u)-([ord::dbu_to_microns $urx]u, [ord::dbu_to_microns $urx]u) at routing layer $top_layer_name.
+PPL 0061 IOPlacer.tcl:563          Pins for $cmd command were not found.
+PPL 0063 IOPlacer.tcl:81           -region is not a list of 4 values {llx lly urx ury}.
+PPL 0064 IOPlacer.tcl:206          -pin_name is required.
+PPL 0065 IOPlacer.tcl:212          -layer is required.
+PPL 0066 IOPlacer.tcl:218          -location is required.
+PPL 0067 IOPlacer.tcl:231          -pin_size is required.
+PPL 0068 IOPlacer.tcl:222          -location is not a list of 2 values.
+PPL 0069 IOPlacer.tcl:235          -pin_size is not a list of 2 values.
+PPL 0070 IOPlacer.cpp:1273         Pin {} placed at ({}um, {}um).
+PPL 0071 IOPlacer.tcl:243          Command place_pin should receive only one pin name.
+PPL 0072 IOPlacer.cpp:162          Number of pins ({}) exceed number of valid positions ({}).
+PPL 0073 IOPlacer.tcl:183          Constraint with region $region has an invalid edge.
+PPL 0074 IOPlacer.cpp:586          Number of pins ({}) exceed number of valid positions ({}) for constraint.
+PPL 0075 IOPlacer.cpp:999          Pin {} is assigned to more than one constraint, using last defined constraint.
+PPL 0076 IOPlacer.cpp:1023         Constraint does not have available slots for its pins.
+PPL 0077 IOPlacer.cpp:836          Layer {} of Pin {} not found.

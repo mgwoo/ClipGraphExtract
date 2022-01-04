@@ -1,0 +1,25 @@
+RMP 0001 blif.cpp:100              Cannot open file {}.
+RMP 0002 blif.cpp:353              Blif writer successfully dumped file with {} instances.
+RMP 0003 blif.cpp:377              Cannot open file {}.
+RMP 0004 blif.cpp:400              Cannot open file {}.
+RMP 0005 blif.cpp:422              Blif parsed successfully, will destroy {} existing instances.
+RMP 0006 blif.cpp:426              Found {} inputs, {} outputs, {} clocks, {} combinational gates, {} registers after parsing the blif file.
+RMP 0007 blif.cpp:451              Inserting {} new instances.
+RMP 0008 blif.cpp:469              Const driver {} doesn't have any connected nets.
+RMP 0009 blif.cpp:512              Master ({}) not found while stitching back instances.
+RMP 0010 blif.cpp:565              Connection {} parsing failed for {} instance.
+RMP 0012 rmp.tcl:90                Missing argument -liberty_file
+RMP 0015 Restructure.cpp:265       ABC failed with code {}. Please check {} log file for details.
+RMP 0016 Restructure.cpp:682       cannot open file {}
+RMP 0020 Restructure.cpp:548       Cannot open file {} for writing.
+RMP 0021 Restructure.cpp:331       All re-synthesis runs discarded, keeping original netlist.
+RMP 0025 Restructure.cpp:705       ABC run failed, see log file {} for details.
+RMP 0029 Restructure.cpp:240       Failed to create new ABC process, could not fork parent process. Please check OS messages for details.
+RMP 0031 Restructure.cpp:228       Failed to run ABC with exit code {}. Please check the messages for details.
+RMP 0032 rmp.tcl:106               -tielo_port not specified
+RMP 0033 rmp.tcl:122               -tiehi_port not specified
+RMP 0034 blif.cpp:414              Blif parser failed. File doesn't follow blif spec.
+RMP 0035 Restructure.cpp:516       Could not create instance {}.
+RMP 0036 Restructure.cpp:658       Mode {} not recognized.
+RMP 0076 blif.cpp:532              Could not create new instance of type {} with name {}.
+RMP 0146 blif.cpp:586              Could not connect instance of cell type {} to {} net due to unknown mterm in blif.

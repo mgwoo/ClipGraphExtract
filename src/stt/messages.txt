@@ -1,0 +1,9 @@
+PDR 0119 graph.cpp:236             pN == cN ({})
+PDR 0120 graph.cpp:3090            cNode ({}) != pNode ({})
+PDR 0666 pdrev.cpp:183             steiner branch count inconsistent
+PDR 0667 pdrev.cpp:188             steiner branch node out of bounds
+STT 0001 SteinerTreeBuilder.tcl:47 The alpha value must be between 0.0 and 1.0.
+STT 0002 SteinerTreeBuilder.tcl:65 set_routing_alpha: Wrong number of arguments.
+STT 0003 SteinerTreeBuilder.tcl:79 Nets for $cmd command were not found
+STT 0004 SteinerTreeBuilder.cpp:243 Net {} is connected to unplaced instance {}.
+STT 0005 SteinerTreeBuilder.cpp:259 Net {} is connected to unplaced pin {}.

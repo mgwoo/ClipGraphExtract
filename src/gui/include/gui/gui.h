@@ -1,0 +1,620 @@
+///////////////////////////////////////////////////////////////////////////////
+// BSD 3-Clause License
+//
+// Copyright (c) 2020, The Regents of the University of California
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+// * Redistributions of source code must retain the above copyright notice, this
+//   list of conditions and the following disclaimer.
+//
+// * Redistributions in binary form must reproduce the above copyright notice,
+//   this list of conditions and the following disclaimer in the documentation
+//   and/or other materials provided with the distribution.
+//
+// * Neither the name of the copyright holder nor the names of its
+//   contributors may be used to endorse or promote products derived from
+//   this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
+#pragma once
+
+#include <string.h>
+
+#include <any>
+#include <array>
+#include <functional>
+#include <initializer_list>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <tuple>
+#include <typeindex>
+#include <typeinfo>
+#include <variant>
+#include <unordered_map>
+
+#include "odb/db.h"
+
+namespace utl {
+class Logger;
+} // namespace utl
+
+namespace gui {
+class Painter;
+class Selected;
+class Options;
+
+// A collection of selected objects
+using SelectionSet = std::set<Selected>;
+using HighlightSet = std::array<SelectionSet, 8>;  // Only 8 Discrete Highlight
+                                                   // Color is supported for now
+
+// This is an API that the Renderer instances will use to do their
+// rendering.  This is subclassed in the gui module and hides Qt from
+// the clients.  Clients will only deal with this API and not Qt itself,
+// which contains the Qt dependencies to the gui module.
+class Painter
+{
+ public:
+  struct Color
+  {
+    constexpr Color() : r(0), g(0), b(0), a(255) {}
+    constexpr Color(int r, int g, int b, int a = 255) : r(r), g(g), b(b), a(a)
+    {
+    }
+
+    int r;
+    int g;
+    int b;
+    int a;
+
+    bool operator==(const Color& other) const
+    {
+      return (r == other.r) &&
+             (g == other.g) &&
+             (b == other.b) &&
+             (a == other.a);
+    }
+  };
+
+  static inline const Color black{0x00, 0x00, 0x00, 0xff};
+  static inline const Color white{0xff, 0xff, 0xff, 0xff};
+  static inline const Color dark_gray{0x80, 0x80, 0x80, 0xff};
+  static inline const Color gray{0xa0, 0xa0, 0xa4, 0xff};
+  static inline const Color light_gray{0xc0, 0xc0, 0xc0, 0xff};
+  static inline const Color red{0xff, 0x00, 0x00, 0xff};
+  static inline const Color green{0x00, 0xff, 0x00, 0xff};
+  static inline const Color blue{0x00, 0x00, 0xff, 0xff};
+  static inline const Color cyan{0x00, 0xff, 0xff, 0xff};
+  static inline const Color magenta{0xff, 0x00, 0xff, 0xff};
+  static inline const Color yellow{0xff, 0xff, 0x00, 0xff};
+  static inline const Color dark_red{0x80, 0x00, 0x00, 0xff};
+  static inline const Color dark_green{0x00, 0x80, 0x00, 0xff};
+  static inline const Color dark_blue{0x00, 0x00, 0x80, 0xff};
+  static inline const Color dark_cyan{0x00, 0x80, 0x80, 0xff};
+  static inline const Color dark_magenta{0x80, 0x00, 0x80, 0xff};
+  static inline const Color dark_yellow{0x80, 0x80, 0x00, 0xff};
+  static inline const Color transparent{0x00, 0x00, 0x00, 0x00};
+
+  static inline const std::array<Painter::Color, 8> highlightColors{
+      Painter::green,
+      Painter::yellow,
+      Painter::cyan,
+      Painter::magenta,
+      Painter::red,
+      Painter::dark_green,
+      Painter::dark_magenta,
+      Painter::blue};
+
+  // The color to highlight in
+  static inline const Color highlight = yellow;
+  static inline const Color persistHighlight = yellow;
+
+  Painter(Options* options, double pixels_per_dbu) : options_(options), pixels_per_dbu_(pixels_per_dbu) {}
+  virtual ~Painter() = default;
+
+  // Get the current pen color
+  virtual Color getPenColor() = 0;
+
+  // Set the pen to whatever the user has chosen for this layer
+  virtual void setPen(odb::dbTechLayer* layer, bool cosmetic = false) = 0;
+
+  // Set the pen to an RGBA value
+  virtual void setPen(const Color& color, bool cosmetic = false, int width = 1)
+      = 0;
+
+  virtual void setPenWidth(int width) = 0;
+  // Set the brush to whatever the user has chosen for this layer
+  // The alpha value may be overridden
+  virtual void setBrush(odb::dbTechLayer* layer, int alpha = -1) = 0;
+
+  // Set the brush to whatever the user has chosen for this layer
+  enum Brush {
+    NONE,
+    SOLID,
+    DIAGONAL,
+    CROSS,
+    DOTS
+  };
+  virtual void setBrush(const Color& color, const Brush& style = SOLID) = 0;
+
+  // Set the pen to an RGBA value and the brush
+  void setPenAndBrush(const Color& color, bool cosmetic = false, const Brush& style = SOLID)
+  {
+    setPen(color, cosmetic);
+    setBrush(color, style);
+  }
+
+  // Draw a geom shape as a polygon with coordinates in DBU with the current
+  // pen/brush
+  virtual void drawGeomShape(const odb::GeomShape* shape) = 0;
+
+  // Draw a rect with coordinates in DBU with the current pen/brush; draws a
+  // round rect if roundX > 0 or roundY > 0
+  virtual void drawRect(const odb::Rect& rect, int roundX = 0, int roundY = 0)
+      = 0;
+
+  // Draw a line with coordinates in DBU with the current pen
+  virtual void drawLine(const odb::Point& p1, const odb::Point& p2) = 0;
+
+  virtual void drawCircle(int x, int y, int r) = 0;
+
+  virtual void drawPolygon(const std::vector<odb::Point>& points) = 0;
+
+  enum Anchor {
+    // four corners
+    BOTTOM_LEFT,
+    BOTTOM_RIGHT,
+    TOP_LEFT,
+    TOP_RIGHT,
+
+    // centers
+    CENTER,
+    BOTTOM_CENTER,
+    TOP_CENTER,
+    LEFT_CENTER,
+    RIGHT_CENTER
+  };
+  virtual void drawString(int x, int y, Anchor anchor, const std::string& s) = 0;
+
+  virtual void drawRuler(int x0, int y0, int x1, int y1, const std::string& label = "") = 0;
+
+  // Draw a line with coordinates in DBU with the current pen
+  void drawLine(int xl, int yl, int xh, int yh)
+  {
+    drawLine(odb::Point(xl, yl), odb::Point(xh, yh));
+  }
+
+  inline double getPixelsPerDBU() { return pixels_per_dbu_; }
+  inline Options* getOptions() { return options_; }
+
+ private:
+  Options* options_;
+  double pixels_per_dbu_;
+};
+
+// This interface allows the GUI to interact with selected objects of
+// types it knows nothing about.  It can just ask the descriptor to
+// give it information about the foreign object (eg attributes like
+// name).
+class Descriptor
+{
+ public:
+  virtual ~Descriptor() = default;
+  virtual std::string getName(std::any object) const = 0;
+  virtual std::string getTypeName() const = 0;
+  virtual std::string getTypeName(std::any /* object */) const { return getTypeName(); }
+  virtual bool getBBox(std::any object, odb::Rect& bbox) const = 0;
+
+  virtual bool isInst(std::any /* object */) const { return false; }
+  virtual bool isNet(std::any /* object */) const { return false; }
+
+  virtual bool getAllObjects(SelectionSet& /* objects */) const = 0;
+
+  // A property is a name and a value.
+  struct Property {
+    std::string name;
+    std::any value;
+
+    static int dbu;
+
+    static std::string toString(const std::any& /* value */);
+    std::string toString() const { return toString(value); };
+  };
+  using Properties = std::vector<Property>;
+
+  // An action is a name and a callback function, the function should return
+  // the next object to select (when deleting the object just return Selected())
+  using ActionCallback = std::function<Selected(void)>;
+  struct Action {
+    std::string name;
+    ActionCallback callback;
+  };
+  using Actions = std::vector<Action>;
+
+  // An editor is a callback function and a list of possible values (this can be empty),
+  // the name of the editor should match the property it modifies
+  // the callback should return true if the edit was successful, otherwise false
+  struct EditorOption {
+    std::string name;
+    std::any value;
+  };
+  using EditorCallback = std::function<bool(std::any)>;
+  struct Editor {
+    EditorCallback callback;
+    std::vector<EditorOption> options;
+  };
+  using Editors = std::map<std::string, Editor>;
+
+  virtual Properties getProperties(std::any object) const = 0;
+  virtual Actions getActions(std::any /* object */) const { return Actions(); }
+  virtual Editors getEditors(std::any /* object */) const { return Editors(); }
+
+  virtual Selected makeSelected(std::any object,
+                                void* additional_data) const = 0;
+
+  virtual bool lessThan(std::any l, std::any r) const = 0;
+
+  static const Editor makeEditor(const EditorCallback& func, const std::vector<EditorOption>& options)
+  {
+    return {func, options};
+  }
+  static const Editor makeEditor(const EditorCallback& func) { return makeEditor(func, {}); }
+
+  // The caller (Selected and Renderers) will pre-configure the Painter's pen
+  // and brush before calling.
+  virtual void highlight(std::any object,
+                         Painter& painter,
+                         void* additional_data = nullptr) const = 0;
+};
+
+// An object selected in the gui.  The object is stored as a
+// std::any to allow any client objects to be stored.  The descriptor
+// is the API for the object as described above.  This doesn't
+// require the client object to use inheritance from an interface.
+class Selected
+{
+ public:
+  // Null case
+  Selected() : additional_data_(nullptr), descriptor_(nullptr) {}
+
+  Selected(std::any object,
+           const Descriptor* descriptor,
+           void* additional_data = nullptr)
+      : object_(object),
+        additional_data_(additional_data),
+        descriptor_(descriptor)
+  {
+  }
+
+  std::string getName() const { return descriptor_->getName(object_); }
+  std::string getTypeName() const { return descriptor_->getTypeName(object_); }
+  bool getBBox(odb::Rect& bbox) const
+  {
+    return descriptor_->getBBox(object_, bbox);
+  }
+
+  bool isInst() const { return descriptor_->isInst(object_); }
+  bool isNet() const { return descriptor_->isNet(object_); }
+  std::any getObject() const { return object_; }
+
+  // If the select_flag is false, the drawing will happen in highlight mode.
+  // Highlight shapes are persistent which will not get removed from
+  // highlightSet, if the user clicks on layout view as in case of selectionSet
+  void highlight(Painter& painter,
+                 const Painter::Color& pen = Painter::persistHighlight,
+                 int pen_width = 0,
+                 const Painter::Color& brush = Painter::transparent,
+                 const Painter::Brush& brush_style = Painter::Brush::SOLID) const;
+
+  Descriptor::Properties getProperties() const;
+
+  std::any getProperty(const std::string& name) const
+  {
+    for (auto& [prop, value] : getProperties()) {
+      if (prop == name) {
+        return value;
+      }
+    }
+    return std::any();
+  }
+
+  Descriptor::Actions getActions() const;
+
+  Descriptor::Editors getEditors() const
+  {
+    return descriptor_->getEditors(object_);
+  }
+
+  operator bool() const { return object_.has_value(); }
+
+  // For SelectionSet
+  friend bool operator<(const Selected& l, const Selected& r)
+  {
+    auto& l_type_info = l.object_.type();
+    auto& r_type_info = r.object_.type();
+    if (l_type_info == r_type_info) {
+      return l.descriptor_->lessThan(l.object_, r.object_);
+    }
+    return l_type_info.before(r_type_info);
+  }
+
+  friend bool operator==(const Selected& l, const Selected& r)
+  {
+    return !(l < r) && !(r < l);
+  }
+
+ private:
+  std::any object_;
+  void* additional_data_;  // Will only be required for highlighting input nets,
+                           // in which case it will store the input instTerm
+  const Descriptor* descriptor_;
+};
+
+// This is an interface for classes that wish to be called to render
+// on the layout.  Clients will subclass and register their instances with
+// the Gui singleton.
+class Renderer
+{
+ public:
+  // Automatically unregisters this renderable
+  virtual ~Renderer();
+
+  // Draw on top of the particular layer.
+  virtual void drawLayer(odb::dbTechLayer* /* layer */, Painter& /* painter */)
+  {
+  }
+
+  // Draw on top of the layout in general after the layers
+  // have been drawn.
+  virtual void drawObjects(Painter& /* painter */) {}
+
+  // Handle user clicks.  Layer is a nullptr for the
+  // object not associated with a layer.
+  // Return true if an object was found; false otherwise.
+  virtual SelectionSet select(odb::dbTechLayer* /* layer */,
+                              const odb::Rect& /* region */)
+  {
+    return SelectionSet();
+  }
+
+  // Used to trigger a draw
+  void redraw();
+
+  // If group_name is empty, no display group is created and all items will be added
+  // at the top level of the display control list
+  // else, a group is created and items added under that list
+  virtual const char* getDisplayControlGroupName()
+  {
+    return "";
+  }
+
+  // Used to register display controls for this renderer.
+  // DisplayControls is a map with the name of the control and the initial setting for the control
+  using DisplayControls = std::map<std::string, bool>;
+  const DisplayControls& getDisplayControls()
+  {
+    return controls_;
+  }
+
+  // Used to check the value of the display control
+  bool checkDisplayControl(const std::string& name);
+
+ protected:
+  // Adds a display control
+  void addDisplayControl(const std::string& name, bool initial_state = false);
+
+ private:
+  // Holds map of display controls and callback function
+  DisplayControls controls_;
+};
+
+// This is the API for the rest of the program to interact with the
+// GUI.  This class is accessed by the GUI implementation to interact
+// with the rest of the system.  This class itself doesn't hold the
+// GUI implementation.  This class is a singleton.
+class Gui
+{
+ public:
+  // Registered renderers must remain valid until they are
+  // unregistered.
+  void registerRenderer(Renderer* renderer);
+  void unregisterRenderer(Renderer* renderer);
+
+  // Make a Selected any object in the gui.  It should have a descriptor
+  // registered for its exact type to be useful.
+  Selected makeSelected(std::any object, void* additional_data = nullptr);
+
+  // Set the current selected object in the gui.
+  void setSelected(Selected selection);
+
+  void removeSelectedByType(const std::string& type);
+
+  template <class T>
+  void removeSelected()
+  {
+    const auto* descriptor = getDescriptor<T>();
+    removeSelectedByType(descriptor->getTypeName());
+  }
+
+  // Add a net to the selection set
+  void addSelectedNet(const char* name);
+
+  // Add an instance to the selection set
+  void addSelectedInst(const char* name);
+
+  // check if any object(inst/net) is present in sect/highlight set
+  bool anyObjectInSet(bool selection_set, odb::dbObjectType obj_type) const;
+
+  void selectHighlightConnectedInsts(bool select_flag, int highlight_group = 0);
+  void selectHighlightConnectedNets(bool select_flag,
+                                    bool output,
+                                    bool input,
+                                    int highlight_group = 0);
+
+  void addInstToHighlightSet(const char* name, int highlight_group = 0);
+  void addNetToHighlightSet(const char* name, int highlight_group = 0);
+
+  void selectAt(const odb::Rect& area, bool append = true);
+  int selectNext();
+  int selectPrevious();
+  void animateSelection(int repeat = 0);
+
+  std::string addRuler(int x0, int y0, int x1, int y1, const std::string& label = "", const std::string& name = "");
+  void deleteRuler(const std::string& name);
+
+  void clearSelections();
+  void clearHighlights(int highlight_group = 0);
+  void clearRulers();
+
+  void select(const std::string& type, const std::string& name_filter = "", bool filter_case_sensitive = true, int highlight_group = -1);
+
+  // Zoom to the given rectangle
+  void zoomTo(const odb::Rect& rect_dbu);
+  void zoomIn();
+  void zoomIn(const odb::Point& focus_dbu);
+  void zoomOut();
+  void zoomOut(const odb::Point& focus_dbu);
+  void centerAt(const odb::Point& focus_dbu);
+  void setResolution(double pixels_per_dbu);
+
+  // Save layout to an image file
+  void saveImage(const std::string& filename,
+                 const odb::Rect& region = odb::Rect(),
+                 double dbu_per_pixel = 0,
+                 const std::map<std::string, bool>& display_settings = {});
+
+  // modify display controls
+  void setDisplayControlsVisible(const std::string& name, bool value);
+  void setDisplayControlsSelectable(const std::string& name, bool value);
+  // Get the visibility/selectability for a control in the 'Display Control' panel.
+  bool checkDisplayControlsVisible(const std::string& name);
+  bool checkDisplayControlsSelectable(const std::string& name);
+
+  // show/hide widgets
+  void showWidget(const std::string& name, bool show);
+
+  // adding custom buttons to toolbar
+  const std::string addToolbarButton(const std::string& name,
+                                     const std::string& text,
+                                     const std::string& script,
+                                     bool echo);
+  void removeToolbarButton(const std::string& name);
+
+  // request for user input
+  const std::string requestUserInput(const std::string& title, const std::string& question);
+
+  // open DRC
+  void loadDRC(const std::string& filename);
+
+  // Force an immediate redraw.
+  void redraw();
+
+  // Waits for the user to click continue before returning
+  // Draw events are processed while paused.
+  // timeout is in milliseconds (0 is no timeout)
+  void pause(int timeout = 0);
+
+  // Show a message in the status bar
+  void status(const std::string& message);
+
+  const std::set<Renderer*>& renderers() { return renderers_; }
+
+  // The GUI listening for callbacks on read_def or read_db but
+  // if the design is created by direct opendb calls then this
+  // will trigger the GUI to load it.
+  void load_design();
+
+  void fit();
+
+  // Called to hide the gui and return to tcl command line
+  void hideGui();
+
+  // Called to show the gui and return to tcl command line
+  void showGui(const std::string& cmds = "", bool interactive = true);
+
+  // set the system logger
+  void setLogger(utl::Logger* logger);
+
+  // set openroad database
+  void setDatabase(odb::dbDatabase* db);
+
+  // check if tcl should take over after closing gui
+  bool isContinueAfterClose() { return continue_after_close_; }
+  // clear continue after close, needed to reset before GUI starts
+  void clearContinueAfterClose() { continue_after_close_ = false; }
+
+  const Selected& getInspectorSelection();
+
+  // accessors for to add and remove commands needed to restore the state of the gui
+  const std::vector<std::string>& getRestoreStateCommands() { return tcl_state_commands_; }
+  void addRestoreStateCommand(const std::string& cmd) { tcl_state_commands_.push_back(cmd); }
+  void clearRestoreStateCommands() { tcl_state_commands_.clear(); }
+
+  template <class T>
+  void registerDescriptor(const Descriptor* descriptor)
+  {
+    registerDescriptor(typeid(T), descriptor);
+  }
+
+  template <class T>
+  const Descriptor* getDescriptor() const
+  {
+    return getDescriptor(typeid(T));
+  }
+
+  template <class T>
+  void unregisterDescriptor()
+  {
+    unregisterDescriptor(typeid(T));
+  }
+
+  // returns the Gui singleton
+  static Gui* get();
+
+  // Will return true if the GUI is active, false otherwise
+  static bool enabled();
+
+ private:
+  Gui();
+
+  void registerDescriptor(const std::type_info& type,
+                          const Descriptor* descriptor);
+  const Descriptor* getDescriptor(const std::type_info& type) const;
+  void unregisterDescriptor(const std::type_info& type);
+
+  // flag to indicate if tcl should take over after gui closes
+  bool continue_after_close_;
+
+  utl::Logger* logger_;
+  odb::dbDatabase* db_;
+
+  // Maps types to descriptors
+  std::unordered_map<std::type_index, std::unique_ptr<const Descriptor>> descriptors_;
+
+  // tcl commands needed to restore state
+  std::vector<std::string> tcl_state_commands_;
+
+  std::set<Renderer*> renderers_;
+  static Gui* singleton_;
+};
+
+// The main entry point
+int startGui(int argc, char* argv[], Tcl_Interp* interp, const std::string& script = "", bool interactive = true);
+
+}  // namespace gui

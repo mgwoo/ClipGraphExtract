@@ -1,0 +1,76 @@
+pipeline {
+  agent any;
+  options {
+    timeout(time: 8, unit: 'HOURS')
+  }
+  environment {
+    COMMIT_AUTHOR_EMAIL = sh (returnStdout: true, script: "git --no-pager show -s --format='%ae'").trim();
+  }
+  stages {
+    stage("Build") {
+      steps {
+        sh "./etc/Build.sh";
+        stash name: "build", includes: "build/**";
+      }
+    }
+    stage("Nightly Tests") {
+      parallel {
+        stage("Detailed Router ISPD") {
+          agent any;
+          stages {
+            stage("Clean-up ISPD") {
+              steps {
+                sh "rm -rf /home/jenkins/ispd/runs/*";
+              }
+            }
+            stage("Test ISPD") {
+              steps {
+                unstash 'build';
+                sh "./src/drt/test/run-ispd.tcl";
+              }
+            }
+          }
+          post {
+            always {
+              sh "mv /home/jenkins/ispd/runs/*.tar.gz .";
+              sh "mv /home/jenkins/ispd/runs/*log .";
+              archiveArtifacts "*.tar.gz, *log";
+            }
+          }
+        }
+        stage("Global Placer Large") {
+          agent any;
+          stages {
+            stage("Test Replace Large") {
+              steps {
+                unstash "build";
+                sh "./src/gpl/test/regression-large";
+              }
+            }
+          }
+          post {
+            always {
+              sh "find . -name results -type d -exec tar zcvf {}.tgz {} ';'";
+              archiveArtifacts artifacts: '**/results.tgz', allowEmptyArchive: true;
+            }
+          }
+        }
+      }
+    }
+  }
+  post {
+    failure {
+      script {
+        echo('Nightly build: report to stakeholders and commit author.');
+        EMAIL_TO="$COMMIT_AUTHOR_EMAIL, \$DEFAULT_RECIPIENTS";
+        REPLY_TO="$EMAIL_TO";
+        emailext (
+            to: "$EMAIL_TO",
+            replyTo: "$REPLY_TO",
+            subject: '$DEFAULT_SUBJECT',
+            body: '$DEFAULT_CONTENT',
+            );
+      }
+    }
+  }
+}

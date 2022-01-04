@@ -1,0 +1,18 @@
+MPL 0002 mpl.tcl:45                Missing mandatory -config_file file
+MPL 0003 mpl.tcl:49                Missing mandatory argument -report_file file
+MPL 0004 mpl.tcl:90                Cannot find instance $inst_name.
+MPL 0009 rtl_mp.cpp:81             RTL-MP param: {}: {}.
+MPL 1001 shape_engine.cpp:749      Shape engine outline width: {}
+MPL 1002 shape_engine.cpp:750      Shape engine outline height: {}
+MPL 1003 shape_engine.cpp:751      Shape engine chip area: {}
+MPL 1004 shape_engine.cpp:752      Shape engine macro area: {}
+MPL 1005 shape_engine.cpp:753      Shape engine stdcell area: {}
+MPL 1006 shape_engine.cpp:754      Shape engine stdcell util: {}
+MPL 1007 shape_engine.cpp:778      Shape Engine {}.
+MPL 2001 block_placement.cpp:1571  Block placement starts.
+MPL 2002 block_placement.cpp:1661  Block placement finish initialization.
+MPL 2003 block_placement.cpp:1674  Block placement Init_T: {}.
+MPL 3001 pin_alignment.cpp:693     Starting pin alignment.
+MPL 3002 pin_alignment.cpp:587     Performing pin alignment on macro cluster {}.
+MPL 3003 pin_alignment.cpp:666     Pin alignment cannot generate valid floorplan for cluster {}.
+MPL 3004 pin_alignment.cpp:679     Finished pin alignment on macro cluster {}.

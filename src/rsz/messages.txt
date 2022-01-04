@@ -1,0 +1,63 @@
+ORD 0101 Resizer.tcl:48            Use -layer or -via but not both.
+ORD 0102 Resizer.tcl:57            layer $layer_name not found.
+ORD 0103 Resizer.tcl:61            $layer_name is not a routing layer.
+ORD 0104 Resizer.tcl:65            missing -capacitance or -resistance argument.
+ORD 0105 Resizer.tcl:98            via $layer_name not found.
+ORD 0106 Resizer.tcl:102           -capacitance not supported for vias.
+ORD 0108 Resizer.tcl:120           no -resistance specified for via.
+ORD 0109 Resizer.tcl:123           missing -layer or -via argument.
+RSZ 0001 Resizer.tcl:145           Use -layer or -resistance/-capacitance but not both.
+RSZ 0002 Resizer.tcl:150           layer $layer_name not found.
+RSZ 0003 Resizer.tcl:237           missing -placement or -global_routing flag.
+RSZ 0004 Resizer.tcl:514           -max_utilization must be between 0 and 100%.
+RSZ 0005 Resizer.tcl:234           Run global_route before estimating parasitics for global routing.
+RSZ 0010 Resizer.tcl:198           $signal_clk wire resistance is 0.
+RSZ 0011 Resizer.tcl:201           $signal_clk wire capacitance is 0.
+RSZ 0014 Resizer.tcl:536           wire capacitance for corner [$corner name] is zero. Use the set_wire_rc command to set wire resistance and capacitance.
+RSZ 0015 Resizer.tcl:257           -buffer_cell is deprecated.
+RSZ 0019 Resizer.tcl:366           repair_hold_violations is deprecated. Use repair_timing -hold
+RSZ 0020 Resizer.tcl:436           found $floating_net_count floatiing nets.
+RSZ 0021 Resizer.tcl:481           no estimated parasitics. Using wire load models.
+RSZ 0022 Resizer.cc:437            no buffers found.
+RSZ 0024 Resizer.cc:1589           Max utilization reached.
+RSZ 0025 Resizer.cc:2342           max utilization reached.
+RSZ 0026 Resizer.cc:325            Removed {} buffers.
+RSZ 0027 Resizer.cc:481            Inserted {} input buffers.
+RSZ 0028 Resizer.cc:579            Inserted {} output buffers.
+RSZ 0029 Resizer.cc:1598           Resized {} instances.
+RSZ 0030 Resizer.cc:2361           Inserted {} buffers.
+RSZ 0031 Resizer.cc:2363           Resized {} instances.
+RSZ 0032 Resizer.cc:2726           Inserted {} hold buffers.
+RSZ 0033 Resizer.cc:2735           No hold violations found.
+RSZ 0034 Resizer.cc:641            Found {} slew violations.
+RSZ 0035 Resizer.cc:643            Found {} fanout violations.
+RSZ 0036 Resizer.cc:645            Found {} capacitance violations.
+RSZ 0037 Resizer.cc:647            Found {} long wires.
+RSZ 0038 Resizer.cc:649            Inserted {} buffers in {} nets.
+RSZ 0039 Resizer.cc:653            Resized {} instances.
+RSZ 0040 Resizer.cc:2336           Inserted {} buffers.
+RSZ 0041 Resizer.cc:2338           Resized {} instances.
+RSZ 0042 Resizer.cc:2217           Inserted {} tie {} instances.
+RSZ 0045 SteinerTree.cc:362        steiner left/right failed.
+RSZ 0046 Resizer.cc:2698           Found {} endpoints with hold violations.
+RSZ 0047 Resizer.cc:740            Found {} long wires.
+RSZ 0048 Resizer.cc:742            Inserted {} buffers in {} nets.
+RSZ 0050 Resizer.cc:2732           Max utilization reached.
+RSZ 0051 Resizer.cc:783            Found {} slew violations.
+RSZ 0052 Resizer.cc:785            Found {} fanout violations.
+RSZ 0053 Resizer.cc:787            Found {} capacitance violations.
+RSZ 0054 Resizer.cc:789            Found {} long wires.
+RSZ 0055 Resizer.cc:791            Inserted {} buffers in {} nets.
+RSZ 0056 Resizer.cc:797            Resized {} instances.
+RSZ 0057 Resizer.cc:799            Resized {} instances.
+RSZ 0058 Resizer.tcl:553           Using max wire length [format %.0f [sta::distance_sta_ui $max_wire_length]]um.
+RSZ 0060 Resizer.cc:2730           Max buffer count reached.
+RSZ 0061 Resizer.tcl:163           $signal_clk wire resistance [sta::format_resistance [expr $wire_res * 1e-6] 6] [sta::unit_scale_abreviation resistance][sta::unit_suffix resistance]/um capacitance [sta::format_capacitance [expr $wire_cap * 1e-6] 6] [sta::unit_scale_abreviation capacitance][sta::unit_suffix capacitance]/um.
+RSZ 0062 Resizer.cc:2340           Unable to repair all setup violations.
+RSZ 0063 Resizer.tcl:385           -libraries is deprecated.
+RSZ 0064 Resizer.cc:2723           Unable to repair all hold checks within margin.
+RSZ 0065 Resizer.tcl:549           max wire length less than [format %.0fu [sta::distance_sta_ui $min_delay_max_wire_length]] increases wire delays.
+RSZ 0066 Resizer.cc:2721           Unable to repair all hold violations.
+RSZ 0067 Resizer.tcl:492           $key must be  between 0 and 100 percent.
+RSZ 0068 Resizer.cc:1970           missing target load cap.
+RSZ 0069 SteinerTree.cc:96         skipping net {} with {} pins.

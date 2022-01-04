@@ -1,0 +1,20 @@
+ORD 0001 OpenRoad.tcl:45           $filename does not exist.
+ORD 0002 OpenRoad.tcl:48           $filename is not readable.
+ORD 0003 OpenRoad.tcl:71           $filename does not exist.
+ORD 0004 OpenRoad.tcl:74           $filename is not readable.
+ORD 0005 OpenRoad.tcl:77           No technology has been read.
+ORD 0006 OpenRoad.tcl:104          DEF versions 5.8, 5.6, 5.5, 5.4, 5.3 supported.
+ORD 0007 OpenRoad.tcl:146          $filename does not exist.
+ORD 0008 OpenRoad.tcl:149          $filename is not readable.
+ORD 0013 OpenRoad.tcl:219          Command units uninitialized. Use the read_liberty or set_cmd_units command to set units.
+ORD 0015 OpenRoad.i:379            Unknown tool name {}
+ORD 0016 OpenRoad.tcl:86           Options -incremental and -floorplan_initialization are both set. At most one should be used.
+ORD 0030 OpenRoad.cc:496           Using {} thread(s).
+ORD 0031 OpenRoad.cc:481           Unable to determine maximum number of threads.\nOne thread will be used.
+ORD 0032 OpenRoad.cc:513           Invalid thread number specification: {}.
+ORD 0033 OpenRoad.tcl:80           -order_wires is deprecated.
+ORD 1009 OpenRoad.tcl:167          -name is missing.
+ORD 1010 OpenRoad.tcl:170          Either -net or -all_clocks need to be defined.
+ORD 1011 OpenRoad.tcl:176          No NDR named ${ndrName} found.
+ORD 1012 OpenRoad.tcl:182          No net named ${netName} found.
+ORD 1013 OpenRoad.tcl:132          -masters is required.
